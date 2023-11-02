@@ -13,7 +13,7 @@ class PlayerReaderStub:
             Player("Gretzky", "EDM", 35, 89)
         ]
 
-class SortBy(Enum):
+class FakeSortBy(Enum):
     POINTS = 1
     GOALS = 2
     ASSISTS = 3
@@ -49,13 +49,13 @@ class TestStatisticsService(unittest.TestCase):
         self.assertEqual(top1[0].name, "Gretzky")
 
     def test_top_sort_goals_palauttaa_oikein(self):
-        top1 = self.stats.top(1, SortBy.GOALS)
+        top1 = self.stats.top(1, FakeSortBy.GOALS)
         self.assertEqual(top1[0].name, "Lemieux")
 
     def test_top_sort_assists_palauttaa_oikein(self):
-        top1 = self.stats.top(1, SortBy.ASSISTS)
+        top1 = self.stats.top(1, FakeSortBy.ASSISTS)
         self.assertEqual(top1[0].name, "Gretzky")
 
     def test_top_sort_vaaranlaisella_palauttaa_oikein(self):
-        top1 = self.stats.top(1, SortBy.FAKE_ENUM)
+        top1 = self.stats.top(1, FakeSortBy.FAKE_ENUM)
         self.assertEqual(top1[0].name, "Gretzky")
