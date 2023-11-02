@@ -1,6 +1,7 @@
 import unittest
 from statistics_service import StatisticsService
 from player import Player
+from enum import Enum
 
 class PlayerReaderStub:
     def get_players(self):
@@ -11,6 +12,12 @@ class PlayerReaderStub:
             Player("Yzerman", "DET", 42, 56),
             Player("Gretzky", "EDM", 35, 89)
         ]
+
+class SortBy(Enum):
+    POINTS = 1
+    GOALS = 2
+    ASSISTS = 3
+    FAKE_ENUM = 4
 
 class TestStatisticsService(unittest.TestCase):
     def setUp(self):
@@ -39,4 +46,16 @@ class TestStatisticsService(unittest.TestCase):
     def test_top_1_palauttaa_oikein(self):
         top1 = self.stats.top(1)
         self.assertEqual(len(top1), 1)
+        self.assertEqual(top1[0].name, "Gretzky")
+
+    def test_top_sort_goals_palauttaa_oikein(self):
+        top1 = self.stats.top(1, SortBy.GOALS)
+        self.assertEqual(top1[0].name, "Lemieux")
+
+    def test_top_sort_assists_palauttaa_oikein(self):
+        top1 = self.stats.top(1, SortBy.ASSISTS)
+        self.assertEqual(top1[0].name, "Gretzky")
+
+    def test_top_sort_vaaranlaisella_palauttaa_oikein(self):
+        top1 = self.stats.top(1, SortBy.FAKE_ENUM)
         self.assertEqual(top1[0].name, "Gretzky")
