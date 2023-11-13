@@ -1,3 +1,4 @@
+import re
 from entities.user import User
 
 
@@ -37,4 +38,14 @@ class UserService:
         if not username or not password:
             raise UserInputError("Username and password are required")
 
-        # toteuta loput tarkastukset tänne ja nosta virhe virhetilanteissa
+        if len(username) < 3:
+            raise UserInputError("Username is too short: less than 3 characters")
+
+        if not re.match("^[a-z]+$", username):
+            raise UserInputError("Username is invalid: not using only a-z")
+
+        if len(password) < 8:
+            raise UserInputError("Password too short: less than 8 chars")
+        
+        if re.match("^[a-z]+$", password):
+            raise UserInputError("Password invalid: should not contain only a-z")
